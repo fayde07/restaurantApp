@@ -1,12 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import ResLayout from './components/RestaurantLayout/ResLayout';
-
-
+import { Rectangle } from './utils/classes/Rectangle';
 
 const App: React.FC = () => {
-  const draw = (ctx: any): void => {
+  const rect = new Rectangle(300, 100, 10, 10, '#000');
+  const rect2 = new Rectangle(250, 180, 10, 10, '#000');
+
+  const draw = (ctx: any) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = '#000000';
     ctx.fillRect(20, 0, 30, 60);
@@ -30,13 +31,18 @@ const App: React.FC = () => {
     ctx.beginPath();
     ctx.arc(40, 110, 22, 0, 2 * Math.PI);
     ctx.fill();
+    ctx.closePath();
+
+    rect.draw(ctx);
+    rect2.draw(ctx);
   };
+
   return (
     <div className="App">
       {/* [to do] add style to header*/}
       {/* [to do] header should contain: date, hour, table number, reserve button, firebase - login component*/}
       <header>some Header data</header>
-      <ResLayout draw={draw} />
+      <ResLayout draw={draw} rect={rect} />
     </div>
   );
 };
