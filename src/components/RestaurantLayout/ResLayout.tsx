@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Rectangle } from '../../utils/classes/Rectangle';
 
 //[to do] refactor when will decide on libraries for canvas;
