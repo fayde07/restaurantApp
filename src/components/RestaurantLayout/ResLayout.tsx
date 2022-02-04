@@ -12,6 +12,7 @@ const ResLayout: React.FC<{ draw: Function,rect:Rectangle }> = (props) => {
   const { draw,rect } = props;
   
   const canvasRef= useRef<HTMLCanvasElement>(null);
+  
 
   useEffect(
     () => {

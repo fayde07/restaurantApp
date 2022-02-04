@@ -2,20 +2,27 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import ResLayout from './components/RestaurantLayout/ResLayout';
 import { Rectangle } from './utils/classes/Rectangle';
-import { db} from './utils/firebase';
-import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import { db, auth } from './utils/firebase';
+import { collectionGroup, collection, doc, getDoc, setDoc, onSnapshot, getDocs } from 'firebase/firestore';
 
 //questions:
 //how to handle posts and get data from collection; in app? or separate and import
-//uuid for document id? 
-//here doc(db,'tables',"H0CsyvTqhFoOt65ks3G7"); it's pretty useless to pass the document id mannunally. 
+//uuid for document id?
+//here doc(db,'tables',"H0CsyvTqhFoOt65ks3G7"); it's pretty useless to pass the document id mannunally.
 //how to get it whithout having it to pass it manually
-
 
 const App: React.FC = () => {
   const rect = new Rectangle(300, 100, 10, 10, '#000');
   const rect2 = new Rectangle(250, 180, 10, 10, '#000');
-  const [restData, setRestData]:any = useState()
+  const [ restData, setRestData ]: any = useState<object[]>();
+
+  const tables = collection(db, 'tables');
+
+  // const tablesQuerySnapshot = async () => await getDocs(tables)
+  // tablesQuerySnapshot().then((res)=>{
+  //   res.docs.forEach((doc)=>console.log(doc.id,doc.data()))
+  // }
+  // );
 
   const draw = (ctx: any) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -47,31 +54,55 @@ const App: React.FC = () => {
     rect2.draw(ctx);
   };
 
-  const docRef = doc(db,'tables',"H0CsyvTqhFoOt65ks3G7");
-  const getData = async ()=>{
-    const docSnap = await getDoc(docRef)
-    setRestData(docSnap.data())
+  const docRef = doc(db, 'tables', 'H0CsyvTqhFoOt65ks3G7');
+  const unsub = onSnapshot(docRef, (doc) => {
+    console.log(doc.data());
+  });
+  // const data = onSnapshot(tables, (doc) => {
+  //   doc.docs.map((item) => console.log(item.data()));
+  // });
+
+  const getData = async () => {
+    const docSnap = await getDoc(docRef);
+
+    // console.log(docSnap.get("tables"));
+
+    // setRestData(docSnap.data());
     // console.log(docSnap.data());
-    
-  }
-  const postData = async ()=>{
-    await setDoc(doc(db,"tables","t2"),{
-      maxSeats:2,
-      reservastion:null,
-      reservationName:'raz',
-      tableNr:2,
-    })
-  }
+  };
 
- const handlePostData= ()=> postData();
+  // tot timpul cand adaug ceva, trebuie sa fac un reference la collection/documentId sa pun ceva.
+  //nu ma pot folosi de un closure sa nu trebuiasca scriu tot timpul acelasi lucru?
+  function addToTablesCollection(item: object){
+    return async function postData(){
+      await setDoc(doc(db, 'tables', 't3'), item);
+    };
+  }
+  // const postData = async () => {
+  //   await setDoc(doc(db, 'tables', 't2'), {
+  //     maxSeats: 2,
+  //     reservastion: new Date(),
+  //     reservationName: 'raz',
+  //     tableNr: 2,
+  //   });
+  // };
+  // let fn1=addToTablesCollection({});
+  // console.log(fn1());
 
-  useEffect(()=>{
+  const handlePostData = () => {
+    let data = addToTablesCollection({
+      maxSeats: 6,
+      reservastion: new Date(),
+      reservationName: 'alexya',
+      tableNr: 3,
+    });
+    data();
+  };
+
+  useEffect(() => {
     getData();
-  },[]) 
-  
+  }, []);
 
-  console.log(restData);
-  
   return (
     <div className="App">
       {/* [to do] add style to header*/}
@@ -79,6 +110,7 @@ const App: React.FC = () => {
       <header>some Header data</header>
       <ResLayout draw={draw} rect={rect} />
       <button onClick={handlePostData}>add some data</button>
+      <div />
     </div>
   );
 };
