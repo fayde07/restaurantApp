@@ -1,8 +1,6 @@
 export class Rectangle {
-  constructor(public x: number, public y: number, public width: number, public height: number, public color?: string) {
-    if (!this.color) {
-      this.color = 'blue';
-    }
+
+  constructor(public x: number, public y: number, public width: number, public height: number, public color = 'blue') {
   }
   draw(context: any) {
     context.fillStyle = this.color;
