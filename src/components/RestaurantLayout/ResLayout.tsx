@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useRef } from 'react';
 import { Rectangle } from '../../utils/classes/Rectangle';
 
 //[to do] refactor when will decide on libraries for canvas;
@@ -12,6 +12,7 @@ const ResLayout: React.FC<{ draw: Function,rect:Rectangle }> = (props) => {
   const { draw,rect } = props;
   
   const canvasRef= useRef<HTMLCanvasElement>(null);
+  
 
   useEffect(
     () => {
