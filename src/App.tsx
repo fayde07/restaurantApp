@@ -77,21 +77,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <nav>
-        <div className="logo">
-          <NavLink className={({ isActive }) => (isActive ? 'active' : 'activeNot')} to="/">
-            <img src="logo192.png" alt="redirect-home" height="40px" width="40px" />
-          </NavLink>
-        </div>
-        <div className="rest">
-          <NavLink className={({ isActive }) => (isActive ? 'active' : 'activeNot')} to="/home">
-            Home
-          </NavLink>
-          <NavLink className={({ isActive }) => (isActive ? 'active' : 'activeNot')} to="/about">
-            About
-          </NavLink>
-        </div>
-      </nav>
+      <header>smth in App</header>
       {/* [to do] add style to header*/}
       {/* [to do] header should contain: date, hour, table number, reserve button, firebase - login component*/}
       <header>some Header data</header>
