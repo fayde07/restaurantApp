@@ -17,6 +17,7 @@ import {
   DocumentData,
   CollectionReference,
 } from 'firebase/firestore';
+import { Outlet, NavLink } from 'react-router-dom';
 
 const App: React.FC = () => {
   const rect = new Rectangle(300, 100, 10, 10, '#000');
@@ -27,7 +28,6 @@ const App: React.FC = () => {
   // const theTables2: Promise<QuerySnapshot<DocumentData>> = getDocs(query(collection(db, 'tables'))).then((res) =>
   //   setTables(res.docs.map((doc) => doc.data())),
   // );
-
 
   const tablesQuerySnapshot = async () => await getDocs(tables);
   tablesQuerySnapshot().then((res) => {
@@ -73,19 +73,30 @@ const App: React.FC = () => {
     return postData();
   }
 
-
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="App">
+      <nav
+        style={{ display: 'flex', justifyContent: 'center', color: '#fff', backgroundColor: '#000', fontSize: '60px' }}
+      >
+        <NavLink className={({ isActive }) => (isActive ? 'active' : '')} to="/">
+          <img src="logo192.png" height="40px" width="40px" />
+        </NavLink>
+        <NavLink className={({ isActive }) => (isActive ? 'active' : '')} to="/home">
+          Home
+        </NavLink>
+        <NavLink className={({ isActive }) => (isActive ? 'active' : '')} to="/about">
+          About
+        </NavLink>
+      </nav>
       {/* [to do] add style to header*/}
       {/* [to do] header should contain: date, hour, table number, reserve button, firebase - login component*/}
       <header>some Header data</header>
       <ResLayout draw={draw} rect={rect} />
 
       <div />
+      <Outlet />
     </div>
   );
 };
