@@ -8,6 +8,7 @@ import Home from './routes/HomePage/Home';
 import About from './routes/AboutPage/About';
 import Nav from './routes/Nav/Nav';
 import Login from './routes/Login/Login';
+import RegistrationForm from './routes/Register/RegistrationForm';
 import 'antd/dist/antd.css';
 
 ReactDOM.render(
@@ -15,10 +16,12 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Nav />}>
+          
           <Route path="/" element={<App />} />
           <Route path="home" element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
+          <Route path="register" element={<RegistrationForm />} />
         </Route>
       </Routes>
     </BrowserRouter>

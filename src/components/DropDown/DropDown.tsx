@@ -11,7 +11,7 @@ interface DropDownProps {}
 const menu = (
   <Menu>
     <Menu.Item key="0">
-      <NavLink className="activeNot" to="/login">
+      <NavLink className="inactive" to="/login">
         Log in
       </NavLink>
     </Menu.Item>

@@ -80,11 +80,10 @@ const App: React.FC = () => {
       <header>smth in App</header>
       {/* [to do] add style to header*/}
       {/* [to do] header should contain: date, hour, table number, reserve button, firebase - login component*/}
-      <header>some Header data</header>
-      <ResLayout draw={draw} rect={rect} />
+      {/* <header>some Header data</header>
+      <ResLayout draw={draw} rect={rect} /> */}
 
-      <div />
-      <Outlet />
+
     </div>
   );
 };

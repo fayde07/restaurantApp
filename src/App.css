@@ -50,11 +50,11 @@ nav {
   transform: scale(1, 1);
   transition: all 0.3s;
 }
-.activeNot {
+.inactive {
   color: rgb(189, 83, 83);
   position: relative;
 }
-.activeNot::after {
+.inactive::after {
   content: " ";
   position: relative;
   opacity: 0;

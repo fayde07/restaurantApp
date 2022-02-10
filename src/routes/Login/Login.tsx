@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-
+import { NavLink } from 'react-router-dom';
 interface LoginProps {}
 
 const onFinishFailed = (errorInfo: any) => {
@@ -14,9 +14,9 @@ const onFinish = (values: any) => {
 
 const Login: React.FC<LoginProps> = ({}) => {
   return (
-    <div style={{display:'flex', flexDirection:'column', alignItems: 'center'}}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Form
-        labelCol={{ span: 0}}
+        labelCol={{ span: 0 }}
         wrapperCol={{ span: 24 }}
         name="normal_login"
         className="login-form"
@@ -41,7 +41,7 @@ const Login: React.FC<LoginProps> = ({}) => {
           <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
         </Form.Item>
 
-        <Form.Item >
+        <Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
@@ -54,8 +54,9 @@ const Login: React.FC<LoginProps> = ({}) => {
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <NavLink to='/register'>register now!</NavLink>
         </Form.Item>
+        
       </Form>
     </div>
   );
