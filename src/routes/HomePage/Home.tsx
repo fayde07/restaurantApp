@@ -1,6 +1,6 @@
 import React from 'react';
-import ResLayout from '../components/RestaurantLayout/ResLayout';
-import { Rectangle } from '../utils/classes/Rectangle';
+import ResLayout from '../../components/RestaurantLayout/ResLayout';
+import { Rectangle } from '../../utils/classes/Rectangle';
 
 interface homeProps {}
 

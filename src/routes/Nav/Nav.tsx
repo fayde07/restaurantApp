@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import "../App.css"
+import '../../App.css';
+import Dropdown from '../../components/DropDown/DropDown';
 
-interface NavProps {
+interface NavProps {}
 
-}
-
- const Nav: React.FC<NavProps> = ({}) => {
-    return (<div>
+const Nav: React.FC<NavProps> = ({}) => {
+  return (
+    <div>
       <nav>
         <div className="logo">
           <NavLink className={({ isActive }) => (isActive ? 'active' : 'activeNot')} to="/">
@@ -22,9 +22,12 @@ interface NavProps {
             About
           </NavLink>
         </div>
+        <div>
+          <Dropdown />
+        </div>
       </nav>
-      <Outlet/>
-    </div>);
-
-}
-export default Nav
+      <Outlet />
+    </div>
+  );
+};
+export default Nav;
