@@ -14,10 +14,10 @@ const onFinish = (values: any) => {
 
 const Login: React.FC<LoginProps> = ({}) => {
   return (
-    <div>
+    <div style={{display:'flex', flexDirection:'column', alignItems: 'center'}}>
       <Form
-        labelCol={{ span: 10 }}
-        wrapperCol={{ span: 6 }}
+        labelCol={{ span: 0}}
+        wrapperCol={{ span: 24 }}
         name="normal_login"
         className="login-form"
         initialValues={{ remember: true }}
@@ -41,7 +41,7 @@ const Login: React.FC<LoginProps> = ({}) => {
           <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
         </Form.Item>
 
-        <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 8 }}>
+        <Form.Item >
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
