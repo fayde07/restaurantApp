@@ -1,19 +1,47 @@
-import React, { useMemo, useState } from 'react';
+import { Auth, getAuth, onAuthStateChanged } from '@firebase/auth';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import '../../App.css';
+
+import "antd/dist/antd.css";
+
 import Dropdown from '../../components/DropDown/DropDown';
-import { UserContext } from '../../contexts/UserContext';
+import UserContext, { UserAuthContext } from '../../contexts/UserContext';
+import { auth } from '../../utils/firebase';
 
 interface NavProps {}
 
 const Nav: React.FC<NavProps> = ({}) => {
-  const [ user, setUser ] = useState(null);
+  const { user, signUserIn } = useContext(UserAuthContext);
+  console.log(user);
 
-  const providerValue = useMemo(() => ({ user, setUser }), [ user, setUser ]);
+  // const isAuth = getAuth()
+  // const loggedUser = isAuth.currentUser
+  // if(loggedUser) {
+  //   setUser(loggedUser)
+  // }
+
+  // console.log(loggedUser.uid);
+
+  // useEffect(() => {
+  //   if(loggedUser){
+  //     const unsub = onAuthStateChanged(auth,(currentUser)=>{
+  //       setUser(currentUser)
+  //     })
+
+  //     return unsub;
+  //   }
+  // },[])
+
+  // useEffect(() => {
+  //   const unsub = onAuthStateChanged(auth, (currentUser: any) => {
+  //     signUserIn(currentUser);
+  //   });
+  //   return unsub;
+  // }, []);
 
   return (
     <div>
-      {/* <UserContext.Provider value={providerValue}> */}
+
         <nav>
           <div className="logo">
             <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to="/">
@@ -32,8 +60,8 @@ const Nav: React.FC<NavProps> = ({}) => {
             <Dropdown />
           </div>
         </nav>
-        <Outlet />
-      {/* </UserContext.Provider> */}
+
+      {/* <Outlet /> */}
     </div>
   );
 };

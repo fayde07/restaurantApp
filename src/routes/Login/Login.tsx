@@ -1,40 +1,60 @@
-import React from 'react';
+import React, { SetStateAction, useContext, useEffect, useState } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { auth } from '../../utils/firebase';
+import { onAuthStateChanged, signInWithEmailAndPassword } from '@firebase/auth';
+import { UserAuthContext } from '../../contexts/UserContext';
+
 interface LoginProps {}
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
-};
-
-const onFinish = (values: any) => {
-  console.log('Received values of form: ', values);
-};
-
 const Login: React.FC<LoginProps> = ({}) => {
+  const { user, signUserIn } = useContext(UserAuthContext);
+
+  const navigate = useNavigate();
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  const onFinish = (values: any) => {
+    const { username, password } = values;
+
+    const handlelogin = async () => {
+      let newUser = await signInWithEmailAndPassword(auth, username, password);
+      await signUserIn(newUser.user);
+    };
+
+    const redirectToHome = () => navigate('/home');
+    const loginAndRedirect = () => {
+      handlelogin();
+      redirectToHome();
+    };
+    loginAndRedirect();
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Form
-        labelCol={{ span: 0 }}
-        wrapperCol={{ span: 24 }}
+        // labelCol={{ span: 0 }}
+        // wrapperCol={{ span: 24 }}
         name="normal_login"
         className="login-form"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
+        // onFinishFailed={onFinishFailed}
+        // autoComplete="off"
       >
         <Form.Item
-          label="Username"
+          // label="Username"
           name="username"
           rules={[ { required: true, message: 'Please input your username!' } ]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username or email" />
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          // label="Password"
           name="password"
           rules={[ { required: true, message: 'Please input your password!' } ]}
         >
@@ -54,9 +74,8 @@ const Login: React.FC<LoginProps> = ({}) => {
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <NavLink to='/register'>register now!</NavLink>
+          Or <NavLink to="/register">register now!</NavLink>
         </Form.Item>
-        
       </Form>
     </div>
   );

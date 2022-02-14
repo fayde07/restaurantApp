@@ -1,10 +1,14 @@
-import React from 'react';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import React, { useContext, useEffect } from 'react';
 import ResLayout from '../../components/RestaurantLayout/ResLayout';
+import { UserAuthContext } from '../../contexts/UserContext';
 import { Rectangle } from '../../utils/classes/Rectangle';
+import { auth } from '../../utils/firebase';
 
-interface homeProps {}
+interface HomesProps {}
 
-const home: React.FC<homeProps> = ({}) => {
+const Home: React.FC<HomesProps> = ({}) => {
+  const { signUserIn } = useContext(UserAuthContext);
   const rect = new Rectangle(300, 100, 10, 10, '#000');
   const rect2 = new Rectangle(250, 180, 10, 10, '#000');
 
@@ -40,10 +44,10 @@ const home: React.FC<homeProps> = ({}) => {
   return (
     <div>
       <h2>in Home page</h2>
-      <header>some Header data in Home</header>
+      {/* <header>some Header data in Home</header> */}
       <ResLayout draw={draw} rect={rect} />
     </div>
   );
 };
 
-export default home;
+export default Home;

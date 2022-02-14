@@ -1,40 +1,38 @@
-import React from 'react';
-import { Menu, Dropdown } from 'antd';
+import React, { useContext } from 'react';
+import {  Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
 import { Avatar } from 'antd';
-
 import { UserOutlined } from '@ant-design/icons';
+import { UserAuthContext } from '../../contexts/UserContext';
+import DropDownMenu from '../DropDownMenu/DropDownMenu';
+
 
 interface DropDownProps {}
 
-const menu = (
-  <Menu>
-    <Menu.Item key="0">
-      <NavLink className="inactive" to="/login">
-        Log in
-      </NavLink>
-    </Menu.Item>
-    <Menu.Item key="1">
-      <a href="#">2nd menu item</a>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key="3">Log out</Menu.Item>
-  </Menu>
-);
 
-//nu mai pot inchide dropdownul.
 
 const DropDown: React.FC<DropDownProps> = ({}) => {
+  const { user } = useContext(UserAuthContext);
+
   return (
     <div>
-      <Dropdown overlay={menu} trigger={[ 'click' ]}>
-        <Avatar icon={<UserOutlined />}>
-          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-            <DownOutlined />
-          </a>
-        </Avatar>
-      </Dropdown>
+
+        <Dropdown overlay={<DropDownMenu/>}  
+        trigger={[ 'click' ]}
+        >
+          <Avatar
+            icon={
+              user?.email?.[0].toUpperCase() ||
+              <UserOutlined />
+            }
+          >
+            <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+              <DownOutlined />
+              
+            </a>
+          </Avatar>
+        </Dropdown>
+
     </div>
   );
 };
