@@ -51,18 +51,16 @@ const DropDown: React.FC<DropDownProps> = ({}) => {
   );
 
   return (
-    <div>
-      <Dropdown
-        overlay={user?.email?.[0] ? signedInMenu : normalMenu}
-        trigger={["click"]}
-      >
-        <Avatar icon={user?.email?.[0].toUpperCase() || <UserOutlined />}>
-          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-            <DownOutlined />
-          </a>
-        </Avatar>
-      </Dropdown>
-    </div>
+    <Dropdown
+      overlay={user?.email?.[0] ? signedInMenu : normalMenu}
+      trigger={["click"]}
+    >
+      <Avatar icon={user?.email?.[0].toUpperCase() || <UserOutlined />}>
+        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+          <DownOutlined />
+        </a>
+      </Avatar>
+    </Dropdown>
   );
 };
 export default DropDown;
