@@ -1,10 +1,10 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import React, { useEffect, useRef, useState } from "react";
-import { Layer, Stage, Text, Rect, Group } from "react-konva";
-import { Html } from "react-konva-utils";
+import { Layer, Stage, Rect } from "react-konva";
+
 import TableActionMenu from "../TableActionMenu/TableActionMenu";
-import { Card, Popover } from "antd";
+
 import { KonvaEventObject } from "konva/lib/Node";
 export type Table = {
   x?: number | undefined;

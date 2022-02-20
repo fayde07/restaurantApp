@@ -5,10 +5,8 @@ import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { UserAuthContext } from "../../contexts/UserContext";
 import { NavLink } from "react-router-dom";
-import { getAuth, signOut } from "@firebase/auth";
+import { signOut } from "@firebase/auth";
 import { auth } from "../../utils/firebase";
-import TableActionMenu from "../TableActionMenu/TableActionMenu";
-
 
 interface DropDownProps {}
 

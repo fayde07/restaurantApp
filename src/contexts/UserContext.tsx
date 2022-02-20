@@ -1,13 +1,13 @@
 // import { createContext } from 'react';
 
-import React, { createContext, useMemo, useState } from 'react';
-import { User } from '@firebase/auth';
-import { UserInfo, UserMetadata } from 'firebase/auth';
+import React, { createContext, useMemo, useState } from "react";
+import { User } from "@firebase/auth";
+import { UserInfo, UserMetadata } from "firebase/auth";
 
 export type UserContextState = {
   user?:
     | {
-        email?: string ;
+        email?: string;
         emailVerified?: boolean;
         isAnonymous?: boolean;
         metadata?: UserMetadata;
@@ -17,8 +17,6 @@ export type UserContextState = {
       }
     | undefined;
   signUserIn: (signedUser: any) => void;
-  // user:object;
-  // signUserIn: (signedUser: any) => void;
 };
 
 export const contextDefaultValues: UserContextState = {
@@ -26,27 +24,32 @@ export const contextDefaultValues: UserContextState = {
     emailVerified: false,
     isAnonymous: false,
     metadata: {
-      creationTime: '',
-      lastSignInTime: '',
+      creationTime: "",
+      lastSignInTime: "",
     },
     providerData: [],
-    refreshToken: '',
+    refreshToken: "",
     tenantId: null,
   },
   signUserIn: (signedUser: any) => {},
-
-  // user:{},
-  // signUserIn: (signedUser: any) => {}
 };
-export const UserAuthContext = createContext<UserContextState>(contextDefaultValues);
+export const UserAuthContext =
+  createContext<UserContextState>(contextDefaultValues);
 
 interface UserContextProps {}
 
 const UserContext: React.FC<UserContextProps> = ({ children }) => {
-  const [ user, setUser ] = useState(contextDefaultValues.user);
+  const [user, setUser] = useState(contextDefaultValues.user);
   const signUserIn = (signedUser: any) => setUser(signedUser);
-  const providerValue: React.SetStateAction<UserContextState> = useMemo(() => ({ user, signUserIn }), [ user ]);
+  const providerValue: React.SetStateAction<UserContextState> = useMemo(
+    () => ({ user, signUserIn }),
+    [user],
+  );
 
-  return <UserAuthContext.Provider value={providerValue}>{children}</UserAuthContext.Provider>;
+  return (
+    <UserAuthContext.Provider value={providerValue}>
+      {children}
+    </UserAuthContext.Provider>
+  );
 };
 export default UserContext;

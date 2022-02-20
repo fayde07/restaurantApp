@@ -1,9 +1,9 @@
-import React, { SetStateAction, useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebase";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "@firebase/auth";
+import { signInWithEmailAndPassword } from "@firebase/auth";
 import { UserAuthContext } from "../../contexts/UserContext";
 
 interface LoginProps {}

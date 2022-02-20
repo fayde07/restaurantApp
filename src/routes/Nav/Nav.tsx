@@ -1,9 +1,6 @@
-import { Auth, getAuth, onAuthStateChanged } from "@firebase/auth";
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import Dropdown from "../../components/DropDown/DropDown";
-import UserContext, { UserAuthContext } from "../../contexts/UserContext";
-import { auth } from "../../utils/firebase";
 
 interface NavProps {}
 
@@ -12,7 +9,6 @@ const Nav: React.FC<NavProps> = ({}) => {
 
   return (
     <nav>
-      
       <div className="rest">
         <NavLink
           className={({ isActive }) => (isActive ? "active" : "inactive")}

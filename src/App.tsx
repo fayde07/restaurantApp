@@ -1,23 +1,9 @@
 import "./App.css";
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import ResLayout from "./components/RestaurantLayout/ResLayout";
-import { Rectangle } from "./utils/classes/Rectangle";
+import React, { useContext, useEffect } from "react";
+
 import { db, auth } from "./utils/firebase";
-import {
-  collectionGroup,
-  addDoc,
-  doc,
-  getDoc,
-  setDoc,
-  onSnapshot,
-  getDocs,
-  query,
-  collection,
-  QuerySnapshot,
-  DocumentData,
-  CollectionReference,
-} from "firebase/firestore";
-import { Outlet, NavLink } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
+import { Outlet } from "react-router-dom";
 import Nav from "./routes/Nav/Nav";
 import { onAuthStateChanged, User } from "@firebase/auth";
 import UserContext, { UserAuthContext } from "./contexts/UserContext";
