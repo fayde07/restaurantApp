@@ -12,19 +12,7 @@ const Nav: React.FC<NavProps> = ({}) => {
 
   return (
     <nav>
-      {/* <div className="logo">
-        <NavLink
-          className={({ isActive }) => (isActive ? "active" : "inactive")}
-          to="/"
-        >
-          <img
-            src="logo192.png"
-            alt="redirect-home"
-            height="35px"
-            width="35px"
-          />
-        </NavLink>
-      </div> */}
+      
       <div className="rest">
         <NavLink
           className={({ isActive }) => (isActive ? "active" : "inactive")}
