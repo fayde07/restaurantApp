@@ -1,5 +1,71 @@
+@import "~antd/dist/antd.css";
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+nav {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  background-color: rgb(233, 233, 233);
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+:visited,
+:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo {
+  position: relative;
+  left: 0px;
+  top: 0px;
+}
+.rest {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rest > * {
+  margin-left: 15px;
+}
+.active {
+  color: rgb(189, 83, 83);
+  position: relative;
+  transition: all 0.3s;
+}
+.active::after {
+  content: " ";
+  position: relative;
+  display: block;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 100%;
+  background-color: rgb(189, 83, 83);
+  border-radius: 2px;
+  transform: scale(1, 1);
+  transition: all 0.3s;
+}
+.inactive {
+  color: rgb(189, 83, 83);
+  position: relative;
+}
+.inactive::after {
+  content: " ";
+  position: relative;
+  opacity: 0;
+  display: block;
+  left: 0;
+  right: 0;
+  height: 4px;
+  width: 100%;
+  background-color: rgb(189, 83, 83);
+  border-radius: 2px;
+  transform: scale(0, 1);
 }
