@@ -30,6 +30,7 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
 
   return (
     <div>
+      {/* [to do] refactor type table to pass tableprops as id,status,actions*/}
       <TableActionMenu activeTable={activeTable} />
 
       <Stage
@@ -60,6 +61,8 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
                 shadowBlur={table.shadowBlur}
                 cornerRadius={table.cornerRadius}
                 onClick={(e: KonvaEventObject<MouseEvent>) => {
+                  console.log(e.target.index);
+
                   setActiveTable({ x: e.evt.clientX, y: e.evt.clientY });
                 }}
               />

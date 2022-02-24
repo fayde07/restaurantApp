@@ -54,8 +54,6 @@ const DropDown: React.FC<DropDownProps> = ({}) => {
     <Dropdown
       overlay={
         user?.email?.[0] ? signedInMenu : normalMenu
-
-        // <TableActionMenu/>
       }
       trigger={["click"]}
     >

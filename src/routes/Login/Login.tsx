@@ -24,7 +24,7 @@ const Login: React.FC<LoginProps> = ({}) => {
       let newUser = await signInWithEmailAndPassword(auth, username, password);
       await signUserIn(newUser.user);
     };
-
+    
     const redirectToHome = () => navigate("/home");
     const loginAndRedirect = () => {
       handlelogin();

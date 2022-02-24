@@ -35,11 +35,14 @@ const App: React.FC = () => {
     const unsub = onAuthStateChanged(auth, (currentUser: User | null) => {
       if (signUserIn) {
         signUserIn({ currentUser });
+        console.log(user);
       }
     });
+
     return unsub;
   }, [user]);
 
+  
   return (
     <div className="App">
       <UserContext>

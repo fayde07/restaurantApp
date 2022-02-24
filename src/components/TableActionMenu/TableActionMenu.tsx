@@ -4,6 +4,9 @@ import { Table } from "../Canvas/ReactCnvs";
 
 interface TableActionMenuProps {
   activeTable?: Table;
+  //id?:string
+  //status?: boolean (if reservationDate!==null)
+  //book table?
 }
 
 const TableActionMenu: React.FC<TableActionMenuProps> = ({ activeTable }) => {
