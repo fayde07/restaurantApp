@@ -1,6 +1,7 @@
+import { useNavigate } from "react-router-dom";
 // import { createContext } from 'react';
 
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import { User } from "@firebase/auth";
 import { UserInfo, UserMetadata } from "firebase/auth";
 
@@ -39,6 +40,7 @@ export const UserAuthContext =
 interface UserContextProps {}
 
 const UserContext: React.FC<UserContextProps> = ({ children }) => {
+  let navigate = useNavigate();
   const [user, setUser] = useState(contextDefaultValues.user);
   const signUserIn = (signedUser: any) => setUser(signedUser);
   const providerValue: React.SetStateAction<UserContextState> = useMemo(
@@ -46,6 +48,14 @@ const UserContext: React.FC<UserContextProps> = ({ children }) => {
     [user],
   );
 
+  useEffect(() => {
+    const checkLogin = () => {
+      if (!user?.email) {
+        return navigate("/login");
+      }
+    };
+    checkLogin();
+  }, []);
   return (
     <UserAuthContext.Provider value={providerValue}>
       {children}

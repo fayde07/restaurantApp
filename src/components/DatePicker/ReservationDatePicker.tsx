@@ -1,22 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ConfigProvider, DatePicker, Space } from "antd";
 import moment from "moment";
 import locale from "antd/lib/locale/en_GB";
 import "moment/locale/en-gb";
 
+interface ReservationDatePickerProps {
+  setChangeDate: any;
+}
 const dateFormat = "DD/MM/YYYY";
-interface ReservationDatePickerProps {}
-
 const today = moment().format(dateFormat);
 
-const ReservationDatePicker: React.FC<ReservationDatePickerProps> = ({}) => {
-  const [selectedDate, setSelectedDate] = useState<any>();
+const ReservationDatePicker: React.FC<ReservationDatePickerProps> = ({
+  setChangeDate,
+}) => {
+  useEffect(() => {
+    setChangeDate(new Date());
+  }, []);
   return (
     <ConfigProvider locale={locale}>
       <DatePicker
         onChange={(arg, dateString) => {
-          setSelectedDate(arg);
-          console.log(arg?.unix(), "***", dateString);
+          setChangeDate(arg?.unix());
         }}
         defaultValue={moment(today, dateFormat)}
         format={dateFormat}
