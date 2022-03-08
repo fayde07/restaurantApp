@@ -6,21 +6,27 @@ import "moment/locale/en-gb";
 
 interface ReservationDatePickerProps {
   setChangeDate: any;
+  selectedDate: any;
 }
 const dateFormat = "DD/MM/YYYY";
-const today = moment().format(dateFormat);
+const today = moment();
 
 const ReservationDatePicker: React.FC<ReservationDatePickerProps> = ({
   setChangeDate,
+  selectedDate,
 }) => {
   useEffect(() => {
-    setChangeDate(new Date());
+    setChangeDate(
+      moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).unix(),
+    );
   }, []);
   return (
     <ConfigProvider locale={locale}>
       <DatePicker
         onChange={(arg, dateString) => {
-          setChangeDate(arg?.unix());
+          setChangeDate(
+            arg?.set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).unix(),
+          );
         }}
         defaultValue={moment(today, dateFormat)}
         format={dateFormat}

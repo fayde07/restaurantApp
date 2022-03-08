@@ -1,5 +1,5 @@
 import { Card, Popover } from "antd";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, deleteDoc } from "firebase/firestore";
 import moment from "moment";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { Table } from "../Canvas/ReactCnvs";
 
 interface TableActionMenuProps {
   activeTable?: Table;
+  setActiveTable: any | undefined;
   tableId: number;
   //status?: boolean (if reservationDate!==null)
   table: any | undefined;
@@ -17,6 +18,7 @@ interface TableActionMenuProps {
 
 const TableActionMenu: React.FC<TableActionMenuProps> = ({
   activeTable,
+  setActiveTable,
   tableId,
   table,
   selectedDate,
@@ -27,7 +29,15 @@ const TableActionMenu: React.FC<TableActionMenuProps> = ({
   const { user, signUserIn } = useContext(UserAuthContext);
   let navigate = useNavigate();
 
-  // console.log(table[0]);
+  const cancelReservatoin = () => {
+    if (user?.email === table?.[0]?.reservationName) {
+      const docRef = doc(db, "reservations", table?.[0]?.id);
+      deleteDoc(docRef);
+    }
+    setActiveTable(undefined);
+  };
+
+  const busy = table?.some((i: any) => i.reservationDate === selectedDate);
 
   const reserve = async () => {
     if (user === undefined) {
@@ -38,7 +48,7 @@ const TableActionMenu: React.FC<TableActionMenuProps> = ({
       return;
     }
     let reserveObj = {
-      reservationDate: moment(new Date(selectedDate)).unix(),
+      reservationDate: selectedDate,
       reservationName: user ? user.email : "[to do] you need to be signe in",
       tableId: tableId,
       contact: user.email,
@@ -47,6 +57,7 @@ const TableActionMenu: React.FC<TableActionMenuProps> = ({
 
     await addDoc(reservationCollectionRef, reserveObj);
     console.log(reserveObj);
+    setActiveTable(undefined);
   };
   return (
     <div ref={popoverDivRef}>
@@ -66,16 +77,22 @@ const TableActionMenu: React.FC<TableActionMenuProps> = ({
       >
         <p style={{ display: "block" }}>
           Status:{" "}
-          {table?.length !== 0 ? (
+          {busy ? (
             <span style={{ color: "red", display: "inline-block" }}> busy</span>
           ) : (
-            <span style={{ color: "green", display: "inline-block" }}> free</span>
+            <span style={{ color: "green", display: "inline-block" }}>
+              {" "}
+              free
+            </span>
           )}
         </p>
         <p>
           Actions:{" "}
-          {table?.length !== 0 ? (
-            " - "
+          {busy ? (
+            <span className="action-button" onClick={cancelReservatoin}>
+              {" "}
+              Cancel reservation
+            </span>
           ) : (
             <span className="action-button" onClick={reserve}>
               {" "}

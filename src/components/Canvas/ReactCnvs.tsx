@@ -7,7 +7,13 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../utils/firebase";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Layer, Stage, Rect } from "react-konva";
 
 import TableActionMenu from "../TableActionMenu/TableActionMenu";
@@ -28,7 +34,7 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
   let navigate = useNavigate();
   //get render details form firebase, and render each table in canvas
   const [renderDetails, setRenderDetails] = useState<any>([]);
-  const [allTables, setAllTables] = useState<any>([]);
+  const [allReservations, setAllReservations] = useState<any>([]);
   const renderDetailsRef = collection(db, "renderDetails");
   const reservationCollectionRef = collection(db, "reservations");
   useEffect(() => {
@@ -39,13 +45,25 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
     getRenderDetails();
   }, []);
 
-  useEffect(() => {
-    const getAllTables = async () => {
-      const data = await getDocs(reservationCollectionRef);
-      setAllTables(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getAllTables();
-  }, []);
+  const getAllTables = useCallback(async () => {
+    const data = await getDocs(reservationCollectionRef);
+    setAllReservations(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  }, [allReservations]);
+
+  useEffect(
+    () => {
+      // const getAllTables = async () => {
+      //   const data = await getDocs(reservationCollectionRef);
+      //   setAllReservations(
+      //     data.docs.map((doc) => ({ ...doc.data(), id: doc.id })),
+      //   );
+      // };
+      getAllTables();
+    },
+    [
+      //allReservations //infinite loop
+    ],
+  );
 
   const { user, signUserIn } = useContext(UserAuthContext);
   const [activeTable, setActiveTable] = useState<Table>();
@@ -56,18 +74,20 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
   const [table, setTable] = useState<object>();
 
   const getTableDetails = (elid: any) => {
-    let data = allTables.filter((el: any) => el.tableId === elid);
-
+    let data = allReservations.filter((el: any) => el.tableId === elid);
     setTable(data);
   };
 
   return (
     <>
-      <ReservationDatePicker setChangeDate={setSelectedDate} />
+      <ReservationDatePicker
+        setChangeDate={setSelectedDate}
+        selectedDate={selectedDate}
+      />
 
-      {/* [to do] refactor type table to pass tableprops as id,status,actions*/}
       <TableActionMenu
         activeTable={activeTable}
+        setActiveTable={setActiveTable}
         tableId={tableId}
         table={table}
         selectedDate={selectedDate}
@@ -88,11 +108,16 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
       >
         <Layer width={window.innerWidth} height={400}>
           {renderDetails.map((table: any) => {
-            const reservation = allTables.find(
-              ({ tableId }: { tableId: number }) => table.tableId === tableId,
+            //neet to convert it to filter.
+            // const reservation = allReservations.find(
+            //   ({ tableId }: { tableId: number }) => tableId === table.tableId,
+            // );
+            const reservation = allReservations.filter(
+              ({ tableId }: { tableId: number }) => tableId === table.tableId,
+            ); //array of reservetions made on the table with id = tableId
+            const isBusy = reservation.some(
+              (i: any) => i.reservationDate === selectedDate,
             );
-            //change condition to check selecteddate
-            const isBusy = !!reservation?.reservationDate;
 
             return (
               <Rect
