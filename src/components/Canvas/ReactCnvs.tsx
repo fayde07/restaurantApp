@@ -7,28 +7,24 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../utils/firebase";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Layer, Stage, Rect } from "react-konva";
-
 import TableActionMenu from "../TableActionMenu/TableActionMenu";
-
 import { KonvaEventObject } from "konva/lib/Node";
 import ReservationDatePicker from "../DatePicker/ReservationDatePicker";
-import moment from "moment";
 import { UserAuthContext } from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 
 export type Table = {
-  x?: number | undefined;
-  y?: number | undefined;
+  x?: number;
+  y?: number;
 };
 interface ReactCanvasProps {}
 
 const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
-  let navigate = useNavigate();
   //get render details form firebase, and render each table in canvas
   const [renderDetails, setRenderDetails] = useState<any>([]);
-  const [allTables, setAllTables] = useState<any>([]);
+  const [allReservations, setAllReservations] = useState<any>([]);
   const renderDetailsRef = collection(db, "renderDetails");
   const reservationCollectionRef = collection(db, "reservations");
   useEffect(() => {
@@ -39,12 +35,13 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
     getRenderDetails();
   }, []);
 
+  const getAllReservations = async () => {
+    const data = await getDocs(reservationCollectionRef);
+    setAllReservations(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  };
+
   useEffect(() => {
-    const getAllTables = async () => {
-      const data = await getDocs(reservationCollectionRef);
-      setAllTables(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getAllTables();
+    getAllReservations();
   }, []);
 
   const { user, signUserIn } = useContext(UserAuthContext);
@@ -55,22 +52,29 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
   //[to do]get the clicked table details;
   const [table, setTable] = useState<object>();
 
-  const getTableDetails = (elid: any) => {
-    let data = allTables.filter((el: any) => el.tableId === elid);
+  const updateTableStatus = (table?: Table, refetch?: boolean) => {
+    setActiveTable(table);
+    if (refetch) getAllReservations();
+  };
 
+  const getTableDetails = (elid: any) => {
+    let data = allReservations.filter((el: any) => el.tableId === elid);
     setTable(data);
   };
 
   return (
     <>
-      <ReservationDatePicker setChangeDate={setSelectedDate} />
+      <ReservationDatePicker
+        setChangeDate={setSelectedDate}
+        selectedDate={selectedDate}
+      />
 
-      {/* [to do] refactor type table to pass tableprops as id,status,actions*/}
       <TableActionMenu
         activeTable={activeTable}
         tableId={tableId}
         table={table}
         selectedDate={selectedDate}
+        updateTableStatus={updateTableStatus}
       />
 
       <Stage
@@ -88,11 +92,12 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
       >
         <Layer width={window.innerWidth} height={400}>
           {renderDetails.map((table: any) => {
-            const reservation = allTables.find(
-              ({ tableId }: { tableId: number }) => table.tableId === tableId,
+            const reservation = allReservations.filter(
+              ({ tableId }: { tableId: number }) => tableId === table.tableId,
+            ); //array of reservetions made on the table with id = tableId
+            const isBusy = reservation.some(
+              (i: any) => i.reservationDate === selectedDate,
             );
-            //change condition to check selecteddate
-            const isBusy = !!reservation?.reservationDate;
 
             return (
               <Rect
@@ -108,7 +113,6 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
                 shadowBlur={table.shadowBlur}
                 cornerRadius={table.cornerRadius}
                 onClick={(e: KonvaEventObject<MouseEvent>) => {
-                  console.log(e.target);
                   setTableId(e.target.attrs.tableId);
                   setActiveTable({ x: e.evt.clientX, y: e.evt.clientY });
                   getTableDetails(e.target.index);

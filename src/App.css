@@ -36,8 +36,6 @@ nav {
 }
 .active {
   color: rgb(189, 83, 83);
-  color: rgb(245, 184, 198);
-  color: rgb(230, 63, 102);
   position: relative;
   transition: all 0.3s;
 }

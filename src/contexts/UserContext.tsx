@@ -49,12 +49,9 @@ const UserContext: React.FC<UserContextProps> = ({ children }) => {
   );
 
   useEffect(() => {
-    const checkLogin = () => {
-      if (!user?.email) {
-        return navigate("/login");
-      }
-    };
-    checkLogin();
+    if (!user?.email) {
+      navigate("/login");
+    }
   }, []);
   return (
     <UserAuthContext.Provider value={providerValue}>
