@@ -51,7 +51,7 @@ const TableActionMenu: React.FC<TableActionMenuProps> = ({
     }
     let reserveObj = {
       reservationDate: selectedDate,
-      reservationName: user ? user.email : "[to do] you need to be signe in",
+      reservationName: user?.email,
       tableId: tableId,
       contact: user.email,
       // otherInfo: null, //[to do] get other details from logedin profile
@@ -60,9 +60,9 @@ const TableActionMenu: React.FC<TableActionMenuProps> = ({
     updateTableStatus(undefined, true);
   };
 
-  const tableResevrvationName = table?.find(
-    (t: any) => t.reservationName === user?.email,
-  );
+  const reservedBy = table
+    ?.filter((t: any) => t.reservationDate === selectedDate)
+    .find((t: any) => t.tableId === tableId);
 
   const sameUser = () => (
     <span className="action-button" onClick={cancelReservatoin}>
@@ -70,7 +70,9 @@ const TableActionMenu: React.FC<TableActionMenuProps> = ({
       Cancel reservation
     </span>
   );
-  const differentUser = () => <span> -</span>;
+  const differentUser = (tableRes: any) => {
+    return <span>{`Booked by ${tableRes?.reservationName}`}</span>;
+  };
 
   return (
     <div ref={popoverDivRef}>
@@ -101,10 +103,10 @@ const TableActionMenu: React.FC<TableActionMenuProps> = ({
         <p>
           Actions:{" "}
           {busy ? (
-            user?.email === tableResevrvationName?.reservationName ? (
+            user?.email === reservedBy?.reservationName ? (
               sameUser()
             ) : (
-              differentUser()
+              differentUser(reservedBy)
             )
           ) : (
             <span className="action-button" onClick={reserve}>
