@@ -42,7 +42,7 @@ interface UserContextProps {}
 const UserContext: React.FC<UserContextProps> = ({ children }) => {
   let navigate = useNavigate();
   const [user, setUser] = useState(contextDefaultValues.user);
-  const signUserIn = (signedUser: any) => setUser(signedUser);
+  const signUserIn = async (signedUser: any) => await setUser(signedUser);
   const providerValue: React.SetStateAction<UserContextState> = useMemo(
     () => ({ user, signUserIn }),
     [user],
