@@ -10,16 +10,6 @@ import UserContext, { UserAuthContext } from "./contexts/UserContext";
 
 const App: React.FC = () => {
   const { user, signUserIn } = useContext(UserAuthContext);
-  console.log(user);
-  
-  // tot timpul cand adaug ceva, trebuie sa fac un reference la collection/documentId sa pun ceva.
-  //nu ma pot folosi de un closure sa nu trebuiasca scriu tot timpul acelasi lucru?
-  // function addToTablesCollection(item: object) {
-  //   async function postData() {
-  //     return await setDoc(doc(db, "tables", "t5"), item);
-  //   }
-  //   return postData();
-  // }
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentUser: User | null) => {

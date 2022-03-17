@@ -9,22 +9,19 @@ import Login from "./routes/Login/Login";
 import RegistrationForm from "./routes/Register/RegistrationForm";
 import "./index.css";
 import Dashboard from "./routes/DashboardPage/Dashboard";
-import UserContext from "./contexts/UserContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      {/* <UserContext> */}
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route path="home" element={<Home />} />
-            <Route path="about" element={<About />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<RegistrationForm />} />
-          </Route>
-        </Routes>
-      {/* </UserContext> */}
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route path="home" element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<RegistrationForm />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root"),
