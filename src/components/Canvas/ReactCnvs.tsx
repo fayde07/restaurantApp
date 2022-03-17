@@ -99,7 +99,8 @@ const ReactCanvas: React.FC<ReactCanvasProps> = ({}) => {
               (i: any) => i.reservationDate === selectedDate,
             );
 
-            return (
+
+            return (   
               <Rect
                 key={table.id}
                 tableId={table.tableId}
